@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feira do Luiz | Dico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>CLIENTES | ANOTAR</h1>
+    </header>
+
+    <main>
+        <!-- Botão Centralizado Inicial -->
+        <button id="btn-add-cliente" class="btn-principal">+</button>
+
+        <!-- Container do Cliente (Fica oculto até ser criado) -->
+        <section id="area-cliente" class="hidden">
+            <div class="cliente-header">
+                <h2 id="nome-cliente-display">Cliente: <span></span></h2>
+                <button id="btn-editar-cliente" class="btn-secundario">Editar Nome</button>
+            </div>
+
+            <!-- Busca de Produtos -->
+            <div class="busca-container">
+                <input type="text" id="input-busca" placeholder="Pesquisar produto...">
+                <ul id="lista-sugestoes" class="hidden"></ul>
+            </div>
+
+            <!-- Extrato / Conta do Cliente -->
+            <div class="conta-container">
+                <h3>Itens Consumidos</h3>
+                <ul id="lista-consumo">
+                    <!-- Itens entram aqui dinamicamente -->
+                </ul>
+                <div class="total-container">
+                    <strong>Total Geral: R$ <span id="total-conta">0.00</span></strong>
+                </div>
+                
+                <!-- Novo Botão de Pagamento -->
+                <button id="btn-pago" class="btn-sucesso">Foi Pago</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

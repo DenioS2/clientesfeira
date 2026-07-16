@@ -1,0 +1,301 @@
+/* Reset básico e tipografia */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #313131; /* Cor escura da paleta */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 10px; /* Evita que cole nas bordas do celular */
+}
+
+header {
+    width: 100%;
+    background-color: #1a233a; /* Azul Escuro adicionado */
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+main {
+    width: 100%;
+    max-width: 600px; /* Mantém um tamanho confortável no PC/Notebook */
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Botões */
+.btn-principal {
+    background-color: #1a233a; /* Azul Escuro */
+    color: white;
+    border: 2px solid #525252;
+    font-size: 2rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    margin-top: 30px;
+    transition: all 0.2s ease;
+}
+
+.btn-principal:hover {
+    transform: scale(1.1);
+    background-color: #2b3a5c; /* Variação do azul escuro */
+    border-color: #ffffff;
+}
+
+.btn-secundario {
+    background-color: #414141; /* Cinza da paleta */
+    color: white;
+    border: 1px solid #525252;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-secundario:hover {
+    background-color: #1a233a; /* Transição para azul escuro */
+}
+
+.btn-sucesso {
+    width: 100%;
+    background-color: #1a233a; /* Azul Escuro */
+    color: white;
+    border: 2px solid #525252;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-sucesso:hover {
+    background-color: #2b3a5c;
+    border-color: #ffffff;
+}
+
+/* Área do Cliente */
+#area-cliente {
+    width: 100%;
+    background: #414141; /* Cinza intermediário da paleta */
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border: 1px solid #525252;
+}
+
+.cliente-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #313131;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    gap: 10px; /* Evita quebra feia no celular */
+}
+
+.cliente-header h2 {
+    font-size: 1.3rem;
+}
+
+.cliente-header h2 span {
+    color: #6182c2; /* Azul claro para destacar o nome no tema escuro */
+}
+
+/* Sistema de Busca */
+.busca-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+#input-busca {
+    width: 100%;
+    padding: 14px;
+    background-color: #313131; /* Fundo escuro */
+    border: 2px solid #525252;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+#input-busca::placeholder {
+    color: #a0a0a0;
+}
+
+#input-busca:focus {
+    outline: none;
+    border-color: #1a233a; /* Foco muda para azul escuro */
+}
+
+#lista-sugestoes {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #313131;
+    border: 2px solid #525252;
+    border-top: none;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+#lista-sugestoes li {
+    padding: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #414141;
+    color: #ffffff;
+}
+
+#lista-sugestoes li:hover {
+    background-color: #1a233a; /* Destaca a seleção em azul escuro */
+}
+
+/* Lista de Consumo */
+.conta-container h3 {
+    margin-bottom: 15px;
+    color: #a0a0a0;
+    font-size: 1.1rem;
+}
+
+#lista-consumo {
+    list-style: none;
+}
+
+#lista-consumo li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #313131;
+}
+
+.item-info {
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+.item-info strong {
+    color: #ffffff;
+    font-size: 1.05rem;
+}
+
+.item-info small {
+    color: #a0a0a0;
+}
+
+.item-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-qtd {
+    font-weight: bold;
+    font-size: 1.2rem;
+    min-width: 25px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.btn-ajuste {
+    background-color: #313131;
+    color: #ffffff;
+    border: 1px solid #525252;
+    width: 36px; /* Tamanho ligeiramente maior para facilitar o toque no celular */
+    height: 36px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-ajuste:hover {
+    background-color: #1a233a;
+    border-color: #ffffff;
+}
+
+.total-container {
+    margin-top: 25px;
+    text-align: right;
+    font-size: 1.4rem;
+    color: #ffffff;
+    border-top: 2px dashed #313131;
+    padding-top: 15px;
+}
+
+.total-container span {
+    color: #6182c2;
+    font-weight: 800;
+}
+
+/* Utilitários */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   CONFIGURAÇÃO DE RESPONSIVIDADE (PC, NOTEBOOK E CELULAR)
+   ========================================================================== */
+
+/* Ajustes para Telas Grandes (Notebooks e PCs) */
+@media (min-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    #area-cliente {
+        padding: 30px; /* Mais espaço interno no computador */
+    }
+}
+
+/* Ajustes finos para Celulares muito pequenos */0
+@media (max-width: 400px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .cliente-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .btn-secundario {
+        width: 100%;
+        text-align: center;
+    }
+}
