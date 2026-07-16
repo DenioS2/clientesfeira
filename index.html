@@ -9,18 +9,31 @@
 <body>
 
     <header>
-        <h1>CLIENTES | ANOTAR</h1>
+        <h1>FEIRA DO LUIZ | DICO</h1>
     </header>
 
     <main>
-        <!-- Botão Centralizado Inicial -->
-        <button id="btn-add-cliente" class="btn-principal">+</button>
+        <!-- Controle de Clientes (Abas Superiores) -->
+        <section class="controle-clientes">
+            <button id="btn-add-cliente" class="btn-principal">+</button>
+            <div id="lista-clientes-abas" class="abas-container">
+                <!-- Os nomes dos clientes entram aqui dinamicamente -->
+            </div>
+        </section>
 
-        <!-- Container do Cliente (Fica oculto até ser criado) -->
+        <!-- Mensagem amigável caso não tenha cliente selecionado -->
+        <div id="msg-sem-cliente" class="aviso-vazio">
+            <p>Nenhum cliente ativo. Clique no "+" acima para adicionar um nome e iniciar a conta.</p>
+        </div>
+
+        <!-- Container do Cliente Ativo -->
         <section id="area-cliente" class="hidden">
             <div class="cliente-header">
                 <h2 id="nome-cliente-display">Cliente: <span></span></h2>
-                <button id="btn-editar-cliente" class="btn-secundario">Editar Nome</button>
+                <div class="acoes-cliente-topo">
+                    <button id="btn-editar-cliente" class="btn-secundario">Editar Nome</button>
+                    <button id="btn-remover-cliente" class="btn-perigo">Excluir</button>
+                </div>
             </div>
 
             <!-- Busca de Produtos -->
@@ -39,7 +52,7 @@
                     <strong>Total Geral: R$ <span id="total-conta">0.00</span></strong>
                 </div>
                 
-                <!-- Novo Botão de Pagamento -->
+                <!-- Botão de Pagamento Verde -->
                 <button id="btn-pago" class="btn-sucesso">Foi Pago</button>
             </div>
         </section>
