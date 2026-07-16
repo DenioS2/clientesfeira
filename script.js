@@ -1,4 +1,3 @@
-// Banco de dados simulado de produtos da feira
 const produtosDisponiveis = [
     { id: 1, nome: "Heineken", preco: 10.00 },
     { id: 2, nome: "Original", preco: 10.00 },
@@ -16,48 +15,140 @@ const produtosDisponiveis = [
     { id: 14, nome: "Monster", preco: 10.00 }
 ];
 
-
-// Estado da aplicação
-let clienteAtual = "";
-let contaCliente = []; // Guarda os itens adicionados: { id, nome, preco, quantidade }
+// Estrutura para múltiplos clientes: { "NomeDoCliente": [ itens da conta ], ... }
+let bancoClientes = {};
+let clienteAtivo = null;
 
 // Elementos do DOM
 const btnAddCliente = document.getElementById("btn-add-cliente");
+const listaClientesAbas = document.getElementById("lista-clientes-abas");
 const areaCliente = document.getElementById("area-cliente");
+const msgSemCliente = document.getElementById("msg-sem-cliente");
 const nomeClienteDisplay = document.querySelector("#nome-cliente-display span");
 const btnEditarCliente = document.getElementById("btn-editar-cliente");
+const btnRemoverCliente = document.getElementById("btn-remover-cliente");
 const inputBusca = document.getElementById("input-busca");
 const listaSugestoes = document.getElementById("lista-sugestoes");
 const listaConsumo = document.getElementById("lista-consumo");
 const totalContaDisplay = document.getElementById("total-conta");
 const btnPago = document.getElementById("btn-pago");
 
-// Evento: Adicionar/Definir Cliente
+// Evento: Criar Nova Ficha de Cliente
 btnAddCliente.addEventListener("click", () => {
-    const nome = prompt("Digite o nome da pessoa:");
-    if (nome && nome.trim() !== "") {
-        clienteAtual = nome.trim();
-        nomeClienteDisplay.textContent = clienteAtual;
-        areaCliente.classList.remove("hidden");
-        btnAddCliente.classList.add("hidden"); // Oculta o botão central inicial
+    const nome = prompt("Digite o nome do novo cliente:");
+    if (!nome || nome.trim() === "") return;
+    
+    const nomeLimpo = nome.trim();
+
+    if (bancoClientes[nomeLimpo]) {
+        alert("Já existe um cliente com esse nome aberto!");
+        selecionarCliente(nomeLimpo);
+        return;
+    }
+
+    bancoClientes[nomeLimpo] = [];
+    atualizarAbasClientes();
+    selecionarCliente(nomeLimpo);
+});
+
+// Troca a visualização para o cliente clicado
+function selecionarCliente(nome) {
+    clienteAtivo = nome;
+    nomeClienteDisplay.textContent = clienteAtivo;
+    
+    msgSemCliente.classList.add("hidden");
+    areaCliente.classList.remove("hidden");
+    
+    inputBusca.value = "";
+    listaSugestoes.classList.add("hidden");
+    
+    destacarAbaAtiva();
+    atualizarInterfaceConta();
+}
+
+// Atualiza os botões/abas dos clientes no topo
+function atualizarAbasClientes() {
+    listaClientesAbas.innerHTML = "";
+    Object.keys(bancoClientes).forEach(nome => {
+        const button = document.createElement("button");
+        button.className = "aba-cliente";
+        button.textContent = nome;
+        button.type = "button";
+        button.addEventListener("click", () => selecionarCliente(nome));
+        listaClientesAbas.appendChild(button);
+    });
+    destacarAbaAtiva();
+}
+
+function destacarAbaAtiva() {
+    const abas = document.querySelectorAll(".aba-cliente");
+    abas.forEach(aba => {
+        if (aba.textContent === clienteAtivo) {
+            aba.classList.add("ativa");
+        } else {
+            aba.classList.remove("ativa");
+        }
+    });
+}
+
+// Evento: Editar Nome do Cliente Atual
+btnEditarCliente.addEventListener("click", () => {
+    if (!clienteAtivo) return;
+    const novoNome = prompt("Editar nome do cliente:", clienteAtivo);
+    if (!novoNome || novoNome.trim() === "" || novoNome.trim() === clienteAtivo) return;
+
+    const novoNomeLimpo = novoNome.trim();
+
+    if (bancoClientes[novoNomeLimpo]) {
+        alert("Já existe outro cliente com esse nome!");
+        return;
+    }
+
+    bancoClientes[novoNomeLimpo] = bancoClientes[clienteAtivo];
+    delete bancoClientes[clienteAtivo];
+    
+    clienteAtivo = novoNomeLimpo;
+    nomeClienteDisplay.textContent = clienteAtivo;
+    atualizarAbasClientes();
+});
+
+// Evento: Remover Ficha (Excluir)
+btnRemoverCliente.addEventListener("click", () => {
+    if (!clienteAtivo) return;
+    if (confirm(`Deseja cancelar e APAGAR a ficha de ${clienteAtivo}? (Os dados serão perdidos)`)) {
+        fecharFichaClienteAtual();
     }
 });
 
-// Evento: Editar Cliente
-btnEditarCliente.addEventListener("click", () => {
-    const novoNome = prompt("Editar nome do cliente:", clienteAtual);
-    if (novoNome && novoNome.trim() !== "") {
-        clienteAtual = novoNome.trim();
-        nomeClienteDisplay.textContent = clienteAtual;
+// Evento: Finalizar e Pagar Conta (Sucesso)
+btnPago.addEventListener("click", () => {
+    if (!clienteAtivo) return;
+    if (confirm(`Confirmar pagamento total da conta de ${clienteAtivo}?`)) {
+        fecharFichaClienteAtual();
     }
 });
+
+function fecharFichaClienteAtual() {
+    delete bancoClientes[clienteAtivo];
+    clienteAtivo = null;
+    
+    atualizarAbasClientes();
+    
+    const clientesRestantes = Object.keys(bancoClientes);
+    if (clientesRestantes.length > 0) {
+        selecionarCliente(clientesRestantes[0]); 
+    } else {
+        areaCliente.classList.add("hidden");
+        msgSemCliente.classList.remove("hidden");
+    }
+}
 
 // Evento: Filtrar produtos na busca
 inputBusca.addEventListener("input", (e) => {
     const termo = e.target.value.toLowerCase();
     listaSugestoes.innerHTML = "";
 
-    if (termo.length === 0) {
+    if (termo.length === 0 || !clienteAtivo) {
         listaSugestoes.classList.add("hidden");
         return;
     }
@@ -84,31 +175,16 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// Evento: Finalizar e Pagar Conta
-btnPago.addEventListener("click", () => {
-    if (confirm(`Confirmar pagamento da conta de ${clienteAtual}?`)) {
-        // Reseta o estado do sistema
-        clienteAtual = "";
-        contaCliente = [];
-        
-        // Limpa as interfaces de texto
-        inputBusca.value = "";
-        atualizarInterfaceConta();
-        
-        // Altera a visibilidade das telas
-        areaCliente.classList.add("hidden");
-        btnAddCliente.classList.remove("hidden");
-    }
-});
-
-// Função: Adicionar produto no extrato do cliente
+// Função: Adicionar produto no extrato do cliente ativo
 function adicionarProdutoNaConta(produto) {
-    const itemExistente = contaCliente.find(item => item.id === produto.id);
+    if (!clienteAtivo) return;
+    const contaAtual = bancoClientes[clienteAtivo];
+    const itemExistente = contaAtual.find(item => item.id === produto.id);
 
     if (itemExistente) {
         itemExistente.quantidade += 1;
     } else {
-        contaCliente.push({
+        contaAtual.push({
             id: produto.id,
             nome: produto.nome,
             preco: produto.preco,
@@ -122,41 +198,68 @@ function adicionarProdutoNaConta(produto) {
 }
 
 // Função: Alterar a quantidade (+ ou -)
-function alterarQuantidade(id, mudança) {
-    const item = contaCliente.find(item => item.id === id);
+function alterarQuantidade(id, mudanca) {
+    if (!clienteAtivo) return;
+    let contaAtual = bancoClientes[clienteAtivo];
+    const item = contaAtual.find(item => item.id === id);
     if (!item) return;
 
-    item.quantidade += mudança;
+    item.quantidade += mudanca;
 
-    // Se a quantidade chegar a zero, remove da conta
     if (item.quantidade <= 0) {
-        contaCliente = contaCliente.filter(item => item.id !== id);
+        bancoClientes[clienteAtivo] = contaAtual.filter(item => item.id !== id);
     }
 
     atualizarInterfaceConta();
 }
 
-// Função: Renderiza a lista atualizada e recalcula o valor total
+// Função: Renderiza a lista do cliente ativo e recalcula o valor total
 function atualizarInterfaceConta() {
     listaConsumo.innerHTML = "";
     let totalGeral = 0;
 
-    contaCliente.forEach(item => {
+    if (!clienteAtivo) return;
+    const contaAtual = bancoClientes[clienteAtivo];
+
+    contaAtual.forEach(item => {
         const subtotal = item.preco * item.quantidade;
         totalGeral += subtotal;
 
         const li = document.createElement("li");
-        li.innerHTML = `
-            <div class="item-info">
-                <strong>${item.nome}</strong> <br>
-                <small>R$ ${item.preco.toFixed(2)} un. | Subtotal: R$ ${subtotal.toFixed(2)}</small>
-            </div>
-            <div class="item-controles">
-                <button class="btn-ajuste" onclick="alterarQuantidade(${item.id}, -1)">-</button>
-                <span class="item-qtd">${item.quantidade}</span>
-                <button class="btn-ajuste" onclick="alterarQuantidade(${item.id}, 1)">+</button>
-            </div>
+        
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "item-info";
+        infoDiv.innerHTML = `
+            <strong>${item.nome}</strong> <br>
+            <small>R$ ${item.preco.toFixed(2)} un. | Subtotal: R$ ${subtotal.toFixed(2)}</small>
         `;
+        
+        const controlesDiv = document.createElement("div");
+        controlesDiv.className = "item-controles";
+        
+        const btnMenos = document.createElement("button");
+        btnMenos.type = "button";
+        btnMenos.className = "btn-ajuste";
+        btnMenos.textContent = "-";
+        btnMenos.addEventListener("click", () => alterarQuantidade(item.id, -1));
+        
+        const qtdSpan = document.createElement("span");
+        qtdSpan.className = "item-qtd";
+        qtdSpan.textContent = item.quantidade;
+        
+        const btnMais = document.createElement("button");
+        btnMais.type = "button";
+        btnMais.className = "btn-ajuste";
+        btnMais.textContent = "+";
+        btnMais.addEventListener("click", () => alterarQuantidade(item.id, 1));
+        
+        controlesDiv.appendChild(btnMenos);
+        controlesDiv.appendChild(qtdSpan);
+        controlesDiv.appendChild(btnMais);
+        
+        li.appendChild(infoDiv);
+        li.appendChild(controlesDiv);
+        
         listaConsumo.appendChild(li);
     });
 
