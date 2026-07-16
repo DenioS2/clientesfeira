@@ -13,12 +13,12 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding: 0 10px; /* Evita que cole nas bordas do celular */
+    padding: 0 10px;
 }
 
 header {
     width: 100%;
-    background-color: #1a233a; /* Azul Escuro adicionado */
+    background-color: #1a233a; /* Azul Escuro */
     color: #ffffff;
     text-align: center;
     padding: 20px;
@@ -33,36 +33,89 @@ header h1 {
 
 main {
     width: 100%;
-    max-width: 600px; /* Mantém um tamanho confortável no PC/Notebook */
+    max-width: 600px;
     padding: 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Botões */
-.btn-principal {
-    background-color: #1a233a; /* Azul Escuro */
-    color: white;
-    border: 2px solid #525252;
-    font-size: 2rem;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    margin-top: 30px;
-    transition: all 0.2s ease;
+/* Área de Controle de Clientes (Novo) */
+.controle-clientes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.btn-principal:hover {
-    transform: scale(1.1);
-    background-color: #2b3a5c; /* Variação do azul escuro */
+.btn-novo-cliente {
+    background-color: #1a233a;
+    color: white;
+    border: 2px solid #525252;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-novo-cliente:hover {
+    background-color: #2b3a5c;
     border-color: #ffffff;
 }
 
+.abas-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto; /* Permite arrastar pro lado no celular se tiver muitos clientes */
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+/* Esconder barra de rolagem feia mantendo a função */
+.abas-container::-webkit-scrollbar {
+    height: 4px;
+}
+.abas-container::-webkit-scrollbar-thumb {
+    background: #525252;
+    border-radius: 4px;
+}
+
+.aba-cliente {
+    background-color: #414141;
+    color: #a0a0a0;
+    border: 1px solid #525252;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.aba-cliente.ativa {
+    background-color: #6182c2; /* Azul claro para destacar cliente ativo */
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(97, 130, 194, 0.4);
+}
+
+.aviso-vazio {
+    width: 100%;
+    background-color: #414141;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: #a0a0a0;
+    border: 1px dashed #525252;
+}
+
+/* Botões Gerais */
 .btn-secundario {
-    background-color: #414141; /* Cinza da paleta */
+    background-color: #414141;
     color: white;
     border: 1px solid #525252;
     padding: 8px 14px;
@@ -70,16 +123,30 @@ main {
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
-    transition: background 0.2s;
 }
 
 .btn-secundario:hover {
-    background-color: #1a233a; /* Transição para azul escuro */
+    background-color: #1a233a;
+}
+
+.btn-perigo {
+    background-color: #7a2323;
+    color: white;
+    border: 1px solid #525252;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-perigo:hover {
+    background-color: #b32d2d;
 }
 
 .btn-sucesso {
     width: 100%;
-    background-color: #1a233a; /* Azul Escuro */
+    background-color: #1a233a;
     color: white;
     border: 2px solid #525252;
     padding: 16px;
@@ -100,8 +167,7 @@ main {
 /* Área do Cliente */
 #area-cliente {
     width: 100%;
-    background: #414141; /* Cinza intermediário da paleta */
-    margin-top: 25px;
+    background: #414141;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -115,7 +181,12 @@ main {
     border-bottom: 2px solid #313131;
     padding-bottom: 15px;
     margin-bottom: 20px;
-    gap: 10px; /* Evita quebra feia no celular */
+    gap: 10px;
+}
+
+.acoes-cliente-topo {
+    display: flex;
+    gap: 8px;
 }
 
 .cliente-header h2 {
@@ -123,7 +194,7 @@ main {
 }
 
 .cliente-header h2 span {
-    color: #6182c2; /* Azul claro para destacar o nome no tema escuro */
+    color: #6182c2;
 }
 
 /* Sistema de Busca */
@@ -136,7 +207,7 @@ main {
 #input-busca {
     width: 100%;
     padding: 14px;
-    background-color: #313131; /* Fundo escuro */
+    background-color: #313131;
     border: 2px solid #525252;
     border-radius: 8px;
     font-size: 1rem;
@@ -149,7 +220,7 @@ main {
 
 #input-busca:focus {
     outline: none;
-    border-color: #1a233a; /* Foco muda para azul escuro */
+    border-color: #1a233a;
 }
 
 #lista-sugestoes {
@@ -178,7 +249,7 @@ main {
 }
 
 #lista-sugestoes li:hover {
-    background-color: #1a233a; /* Destaca a seleção em azul escuro */
+    background-color: #1a233a;
 }
 
 /* Lista de Consumo */
@@ -232,7 +303,7 @@ main {
     background-color: #313131;
     color: #ffffff;
     border: 1px solid #525252;
-    width: 36px; /* Tamanho ligeiramente maior para facilitar o toque no celular */
+    width: 36px;
     height: 36px;
     border-radius: 6px;
     font-weight: bold;
@@ -267,35 +338,73 @@ main {
     display: none !important;
 }
 
-/* ==========================================================================
-   CONFIGURAÇÃO DE RESPONSIVIDADE (PC, NOTEBOOK E CELULAR)
-   ========================================================================== */
-
-/* Ajustes para Telas Grandes (Notebooks e PCs) */
+/* Responsividade */
 @media (min-width: 768px) {
     header h1 {
         font-size: 2.2rem;
     }
-    
     #area-cliente {
-        padding: 30px; /* Mais espaço interno no computador */
+        padding: 30px;
     }
 }
 
-/* Ajustes finos para Celulares muito pequenos */0
-@media (max-width: 400px) {
+@media (max-width: 480px) {
     header h1 {
         font-size: 1.5rem;
     }
-    
     .cliente-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
-    
-    .btn-secundario {
+    .acoes-cliente-topo {
         width: 100%;
+    }
+    .acoes-cliente-topo button {
+        flex: 1;
         text-align: center;
     }
+}
+
+.controle-abas {
+    display: flex;
+    flex-direction: column; /* Coloca o botão no topo e as abas embaixo */
+    align-items: center;    /* Centraliza o botão e as abas horizontalmente */
+    justify-content: center;/* Garante centralização total no eixo principal */
+    width: 100%;
+    margin-bottom: 25px;
+    gap: 20px;
+}
+
+.btn-principal {
+    background-color: #1a233a; /* Azul Escuro */
+    color: white;
+    border: 2px solid #525252;
+    font-size: 2.2rem;
+    width: 140px;  /* Largura expandida lateralmente */
+    height: 90px;  /* Altura alongada de cima para baixo */
+    border-radius: 30px; /* Formato pílula arredondado */
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    display: flex;       /* Ativa flexbox interno para o ícone "+" */
+    align-items: center;    /* Centraliza o "+" verticalmente dentro do botão */
+    justify-content: center; /* Centraliza o "+" horizontalmente dentro do botão */
+    margin: 0 auto;       /* Força a centralização nas margens do navegador */
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-principal:hover {
+    transform: scale(1.05);
+    background-color: #2b3a5c;
+    border-color: #ffffff;
+}
+
+.abas-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 5px;
+    justify-content: center; /* Centraliza as bolhas com os nomes dos clientes abaixo do botão */
 }
